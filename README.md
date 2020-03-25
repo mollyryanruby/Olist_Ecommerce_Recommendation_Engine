@@ -1,15 +1,15 @@
 # Ecommerce Recommendation Engine
 
-**Objective:**  
+## Objective:  
 Engineer a product recommendation system for an e-commerce website to increase customer retention and sales.. 
 
-**Featured Techniques:**  
+## Featured Techniques: 
 * Feature Engineering
 * Collaborative Filtering
 * Surprise Package
 * SVD Dimensionality Reduction
 
-**Methodology:**  
+## Methodology:  
 Users are separated into repeat customers and first time customers and the recommendation system works as follows.
 
 * Repeat Customers
@@ -20,5 +20,5 @@ Users are separated into repeat customers and first time customers and the recom
   * Hot products
   * Popular in your area
   
-**Data:**   
+## Data Source   
 https://www.kaggle.com/olistbr/brazilian-ecommerce#olist_products_dataset.csv
