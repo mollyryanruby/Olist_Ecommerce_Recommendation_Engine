@@ -1,5 +1,4 @@
-# Ecommerce_Recommendation_Engine
-Recommendation Engine for Ecommerce Site Olist
+# Ecommerce Recommendation Engine
 
 **Objective:**  
 Engineer a product recommendation system for an e-commerce website to increase customer retention and sales.. 
