@@ -10,7 +10,7 @@ from connect_to_aws import access_postgres_in_aws
 def save_csv(data, file_name):
     """Saves dataframe to csv.
 
-    Keyword arguments:
+    Args:
     data -- a pandas dataframe
     file_name -- name for storing csv file
     """
@@ -19,7 +19,7 @@ def save_csv(data, file_name):
 def query_aws(aws_engine):
     """returns the pandas dataframe outlined in the query
 
-    Keyword arguments:
+    Args:
     aws_engine -- the connection to AWS
     """
     query = """
@@ -70,7 +70,7 @@ def create_total_payment_value(data):
     made by vouchers, which are split amongst multiple lines. Then drops 'payment_value'
     column as it is redundent.
 
-    Keyword arguments:
+    Args:
     data -- pandas dataframe with total_value column that indicates each purchase value
     """
     data['total_payment'] = data['payment_value'].groupby(data['order_id']).transform('sum')
@@ -110,11 +110,11 @@ def repeat_and_first_time(data):
     return repeaters, first_timers
 
 def regenerate_dataset_with_indicators(repeaters, first_timers):
-    """Returns a dataset that is a concatination of the two imput datasets and assigns
+    """Saves a csv dataset that is a concatination of the two imput datasets and assigns
     a 1 to any repeat customers and a 0 to first time customers indicated in the 'repeater'
-    column. Saves the combined dataframe as a .csv file.
+    column.
 
-    Keyword arguements:
+    Args:
     repeater_data -- dataset that receives the 1 indication of repeat customers
     first_timer_data -- dataset that receives the 1 indication of first time customers
     """
@@ -125,6 +125,21 @@ def regenerate_dataset_with_indicators(repeaters, first_timers):
     combined_df = combined_df.drop('Unnamed: 0', axis=1).reset_index()
 
     save_csv(combined_df, 'combined_data')
+
+def create_user_ratings_df(data):
+    """Saves a csv dataset containing a users column, product column, and ratings column
+    for repeat customers.
+    """
+
+    user_prod_reviewscore_data = data.groupby(['customer_unique_id', 'product_id']
+                                             )['review_score'].agg(['mean']).reset_index()
+
+    user_prod_reviewscore_data = user_prod_reviewscore_data.rename({'mean':'estimator',
+                                                                    'product_id':'productId'},
+                                                                   axis=1)
+
+    save_csv(user_prod_reviewscore_data, 'repeat_user_ratings_data')
+
 
 def main():
     """Calls internal and external functions to the script to pull data from aws, clean data,
@@ -142,5 +157,6 @@ def main():
     olist_data = convert_to_datetime(olist_data)
     repeater_data, first_timer_data = repeat_and_first_time(olist_data)
     regenerate_dataset_with_indicators(repeater_data, first_timer_data)
+    create_user_ratings_df(repeater_data)
 
 main()
