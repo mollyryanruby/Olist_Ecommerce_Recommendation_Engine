@@ -22,3 +22,6 @@ Users are separated into repeat customers and first time customers and the recom
   
 ## Data Source   
 https://www.kaggle.com/olistbr/brazilian-ecommerce#olist_products_dataset.csv
+
+## Folder Structure
+Clean code for implementation is found in python files. Exploratory data analysis and model selection and tuning are found in jupyter notebooks within the notebooks folder.
